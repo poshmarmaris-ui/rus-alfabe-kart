@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNZ Eğitim Platformu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2a3a7c, #3a4a8c);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            z-index: 10;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .modal-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #4a6ee0, #6a8ef0);
+            color: white;
+            padding: 30px 25px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><path d="M28.2,38.7c2.5-3.5,7.2-4.1,10.6-1.5c3.5,2.6,4.3,7.5,1.8,11c-2.5,3.5-7.2,4.1-10.6,1.5C26.5,46.6,25.7,41.7,28.2,38.7z M30.5,20.4c2.5-3.5,7.2-4.1,10.6-1.5c3.5,2.6,4.3,7.5,1.8,11c-2.5,3.5-7.2,4.1-10.6,1.5C28.8,28.3,28,23.4,30.5,20.4z M50.5,25.4c2.5-3.5,7.2-4.1,10.6-1.5c3.5,2.6,4.3,7.5,1.8,11c-2.5,3.5-7.2,4.1-10.6,1.5C48.8,33.3,48,28.4,50.5,25.4z M70.5,30.4c2.5-3.5,7.2-4.1,10.6-1.5c3.5,2.6,4.3,7.5,1.8,11c-2.5,3.5-7.2,4.1-10.6,1.5C68.8,38.3,68,33.4,70.5,30.4z M15.5,30.4c2.5-3.5,7.2-4.1,10.6-1.5c3.5,2.6,4.3,7.5,1.8,11c-2.5,3.5-7.2,4.1-10.6,1.5C13.8,38.3,13,33.4,15.5,30.4z" fill="white"/></svg>');
+            background-size: 200px;
+            opacity: 0.1;
+        }
+
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff9a00, #ff6a00);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border: 5px solid white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-text {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-header p {
+            opacity: 0.9;
+            font-size: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .flags-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .flag {
+            width: 32px;
+            height: 22px;
+            border-radius: 3px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .flag:hover {
+            transform: translateY(-5px);
+        }
+
+        .flag-uk {
+            /* background: linear-gradient(to bottom, #012169 33%, white 33%, white 66%, #c8102e 66%); */
+            position: relative;
+        }
+
+        /* .flag-uk::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent 40%, #c8102e 40%, #c8102e 60%, transparent 60%),
+                        linear-gradient(to bottom, transparent 40%, #c8102e 40%, #c8102e 60%, transparent 60%);
+        } */
+
+        .flag-russia {
+            background: linear-gradient(to bottom, white 33%, #0039a6 33%, #0039a6 66%, #d52b1e 66%);
+        }
+
+        /* .flag-turkey {
+            background-color: #e30a17;
+            position: relative;
+        }
+ */
+
+        .flag-italy {
+            background: linear-gradient(to right, #009246 33%, white 33%, white 66%, #ce2b37 66%);
+        }
+
+        .flag-france {
+            background: linear-gradient(to right, #0055a4 33%, white 33%, white 66%, #ef4135 66%);
+        }
+
+        .flag-germany {
+            background: linear-gradient(to bottom, #000000 33%, #dd0000 33%, #dd0000 66%, #ffce00 66%);
+        }
+
+        .card-content {
+            padding: 30px 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-content h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .card-content p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .features {
+            margin: 25px 0;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .feature:hover {
+            background: rgba(74, 110, 224, 0.1);
+        }
+
+        .feature i {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #4a6ee0, #6a8ef0);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            margin-right: 15px;
+            font-size: 12px;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 14px 20px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4a6ee0, #6a8ef0);
+            color: white;
+            box-shadow: 0 5px 15px rgba(74, 110, 224, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #4a6ee0;
+            border: 2px solid #4a6ee0;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 20px rgba(74, 110, 224, 0.6);
+        }
+
+        .btn-outline:hover {
+            background: #4a6ee0;
+            color: white;
+        }
+
+        .card-footer {
+            padding: 15px 25px;
+            background-color: #f8f9fa;
+            text-align: center;
+            color: #777;
+            font-size: 0.85rem;
+            border-top: 1px solid #eee;
+        }
+
+        .background-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .bg-element {
+            position: absolute;
+            opacity: 0.1;
+        }
+
+        .bg-1 {
+            top: 10%;
+            right: 10%;
+            font-size: 120px;
+            color: #4a6ee0;
+        }
+
+        .bg-2 {
+            bottom: 15%;
+            left: 5%;
+            font-size: 90px;
+            color: #ff9a00;
+        }
+
+        .bg-3 {
+            top: 40%;
+            left: 8%;
+            font-size: 70px;
+            color: #4a6ee0;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-card">
+        <div class="background-elements">
+            <div class="bg-element">📚</div>
+            <div class="bg-element">🎓</div>
+            <div class="bg-element">🌍</div>
+        </div>
+        
+        <div class="card-header">
+            <div class="logo-container">
+                <div class="logo-text">DNZ</div>
+            </div>
+            <h1>Global Eğitim Platformu</h1>
+            <p>Dünya Çapında Eğitim Fırsatları</p>
+            
+            <div class="flags-container">
+                <div class="flag flag-uk" title="Birleşik Krallık"><img src="https://st.depositphotos.com/1164721/1561/v/600/depositphotos_15619967-stock-illustration-united-kingdom-flag-vector-illustration.jpg" 
+                    alt="" width="33" height="22"></div>
+                <div class="flag flag-russia" title="Rusya"></div>
+                <div class="flag flag-turkey" title="Türkiye"> <img src="https://st3.depositphotos.com/4100307/12729/v/450/depositphotos_127294954-stock-illustration-flag-turkey-background.jpg" 
+                    alt="" width="33" height="22"></div>
+                <div class="flag flag-italy" title="İtalya"></div>
+                <div class="flag flag-france" title="Fransa"></div>
+                <div class="flag flag-germany" title="Almanya"></div>
+            </div>
+        </div>
+        
+        <div class="card-content">
+            <h2>Uluslararası Eğitim Programı</h2>
+            <p>7 farklı ülkeden eğitim içerikleri ve global sertifikasyon fırsatları ile kariyerinize yön verin.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-globe"></i>
+                    <span>Çok Dilli Eğitim İçerikleri</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-certificate"></i>
+                    <span>Uluslararası Geçerli Sertifikalar</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Global Eğitmen Kadrosu</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-laptop-code"></i>
+                    <span>Online ve Canlı Dersler</span>
+                </div>
+            </div>
+            
+            <div class="btn-container">
+                <a href="#" class="btn btn-primary">Hemen Kaydol</a>
+                <a href="#" class="btn btn-outline">Programları İncele</a>
+            </div>
+        </div>
+        
+        <div class="card-footer">
+            <p>© 2023 DNZ Global Education. Tüm hakları saklıdır.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const card = document.querySelector('.modal-card');
+            const buttons = document.querySelectorAll('.btn');
+            const flags = document.querySelectorAll('.flag');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    if(this.classList.contains('btn-primary')) {
+                        alert('Kayıt formuna yönlendiriliyorsunuz!');
+                    } else {
+                        alert('Eğitim programları sayfasına yönlendiriliyorsunuz!');
+                    }
+                    
+                    card.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        card.style.transform = '';
+                    }, 200);
+                });
+            });
+            
+            flags.forEach(flag => {
+                flag.addEventListener('click', function() {
+                    const country = this.getAttribute('title');
+                    alert(`${country} eğitim programlarını görüntülüyorsunuz!`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
